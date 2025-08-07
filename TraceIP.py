@@ -5,6 +5,7 @@ if(len(sys.argv)<2):
         print("ip address Require :\n python %s ip"%__file__.split('\\')[-1])
         sys.exit(1)
 l=[]
+TOKEN='YOUR_IPINFO_TOKEN'  # Replace with your actual token
 target =sys.argv[1]
 def trace(target,ttl):
     pkt = IP(dst=target, ttl=ttl) / ICMP()
@@ -15,7 +16,7 @@ def trace(target,ttl):
     else:
         if(reply.src in l):
              return 2
-        ipinfo=req.get(f'https://ipinfo.io/{reply.src}?token=5719f20e29364f').json()
+        ipinfo=req.get(f'https://ipinfo.io/{reply.src}?token={TOKEN}').json()
         if(ipinfo.get('country')!=None):
             print(f'{ttl}> {reply.src} - {ipinfo["city"]}, {ipinfo["region"]}, {ipinfo["country"]}') 
         else:
